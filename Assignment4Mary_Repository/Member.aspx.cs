@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -11,7 +12,10 @@ namespace Assignment4Mary_Repository
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            TextBox1.Text = 
+            dbcon = new DataContext(connString);
+            
         }
+        public static string connString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\MEG11\\OneDrive\\Desktop\\KarateSchool(1).mdf;Integrated Security=True;Connect Timeout=30";
+        DataContext dbcon;
     }
 }
