@@ -11,10 +11,19 @@
         <p>
             <br />
             Hello,
-            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-            !</p>
+            <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource1" DataTextField="MemberFirstName" DataValueField="MemberFirstName" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+            </asp:DropDownList>
+            !
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:KarateSchool_1_ConnectionString1 %>" SelectCommand="SELECT [MemberFirstName], [MemberLastName] FROM [Member]"></asp:SqlDataSource>
+        </p>
         <p>
             &nbsp;</p>
+        <p>
+            &nbsp;</p>
+        <p>
+            <asp:GridView ID="GridView1" runat="server">
+            </asp:GridView>
+        </p>
         <p>
             &nbsp;</p>
         <p>
