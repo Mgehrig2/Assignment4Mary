@@ -11,5 +11,6 @@ namespace Assignment4Mary_Repository
         public static int instructorID = 0;
         public static string memberNameFirst = "";
         public static string memberNameLast = "";
+        public static int nonSpecificID = 0;
     }
 }

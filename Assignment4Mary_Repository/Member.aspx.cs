@@ -24,6 +24,7 @@ namespace Assignment4Mary_Repository
             dbcon = new DataClasses1DataContext(connString);
 
             int id = Convert.ToInt32(DropDownList1.SelectedValue);
+            Extra.member = id;
 
             var memberQueryFirst = from Members in dbcon.Members
                                    where Members.Member_UserID == id
