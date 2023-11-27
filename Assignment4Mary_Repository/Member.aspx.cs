@@ -10,62 +10,47 @@ namespace Assignment4Mary_Repository
 {
     public partial class Member : System.Web.UI.Page
     {
+
+        public static string connString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\MEG11\\source\\repos\\Assignment4Mary\\Assignment4Mary_Repository\\App_Data\\KarateSchool(1).mdf;Integrated Security=True;Connect Timeout=30";
+        DataClasses1DataContext dbcon;
         protected void Page_Load(object sender, EventArgs e)
         {
             dbcon = new DataClasses1DataContext(connString);
-            //TextBox1.Text = "Hello User!";
+
+            //   string userMember =User.Identity.Name;
+
+            string userMember = "Ken.Magel";
+
+
+
+
+            //search fir ID in Net Users
+
+            NetUser searchID = (from x in dbcon.NetUsers
+                                where x.UserName.Trim() == userMember.Trim()
+                                select x).First();
+            int ID = searchID.UserID;
+
+
+            Member myMember = (from y in dbcon.Members
+                                  where y.Member_UserID == ID
+                                  select y).First();
+
+            TextBox1.Text = myMember.MemberFirstName + " " + myMember.MemberLastName;
+
+
+            var query = from x in dbcon.Sections
+                        from y in dbcon.Instructors
+                        where x.Instructor_ID == ID && x.Member_ID == y.InstructorID
+                        select new { x.SectionName, x.SectionStartDate, x.SectionFee, y.InstructorFirstName, y.InstructorLastName }; 
+            GridView1.DataSource = query;
+            GridView1.DataBind();
 
         }
-        public static string connString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\MEG11\\OneDrive\\Desktop\\KarateSchool(1).mdf;Integrated Security=True;Connect Timeout=30";
-        DataClasses1DataContext dbcon;
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            dbcon = new DataClasses1DataContext(connString);
-
-            int id = Convert.ToInt32(DropDownList1.SelectedValue);
-            Extra.member = id;
-
-            var memberQueryFirst = from Members in dbcon.Members
-                                   where Members.Member_UserID == id
-                                   select Members.MemberFirstName;
-            var memberQueryLast = from Members in dbcon.Members
-                                  where Members.Member_UserID == id
-                                  select Members.MemberLastName;
-            Extra.memberNameFirst = memberQueryFirst.ToString();
-            Extra.memberNameLast = memberQueryLast.ToString();
-            TextBox1.Text = Extra.memberNameFirst + " " + Extra.memberNameLast;
-
-            var sectionQuery = from Section in dbcon.Sections
-                               where Section.Member_ID == id
-                               select Section.SectionName;
-            string sectionName = sectionQuery.ToString();
-
-            var sectionQueryFee = from Section in dbcon.Sections
-                                  where Section.Member_ID == id
-                                  select Section.SectionFee;
-
-            var sectionQueryInstructor = from Section in dbcon.Sections
-                                         where Section.Member_ID == id
-                                         select Section.Instructor_ID;
-            Extra.instructorID = Convert.ToInt32(sectionQueryInstructor);
-            int instructorID = Extra.instructorID;
-
-            var instructorQueryFirst = from Instructor in dbcon.Instructors
-                                       where Instructor.InstructorID == instructorID
-                                       select Instructor.InstructorFirstName;
-            string instructorFirst = instructorQueryFirst.ToString();
-            var instructorQueryLast = from Instructor in dbcon.Instructors
-                                      where Instructor.InstructorID == instructorID
-                                      select Instructor.InstructorLastName;
-            string instructorLast = instructorQueryLast.ToString();
-
-            var ultimateQuery = from Instructor in dbcon.Instructors
-                                from Section in dbcon.Sections
-                                where Section.Member_ID == id && Instructor.InstructorID == instructorID
-                                select new { Section.SectionName, Section.SectionFee, Instructor.InstructorFirstName, Instructor.InstructorLastName };
-            GridView1.DataSource = memberQueryFirst;
-            GridView1.DataBind();
+            
         }
     }
 }
