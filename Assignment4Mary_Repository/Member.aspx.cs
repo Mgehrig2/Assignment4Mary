@@ -41,7 +41,7 @@ namespace Assignment4Mary_Repository
 
             var query = from x in dbcon.Sections
                         from y in dbcon.Instructors
-                        where x.Instructor_ID == ID && x.Member_ID == y.InstructorID
+                        where x.Instructor_ID == y.InstructorID && x.Member_ID == ID
                         select new { x.SectionName, x.SectionStartDate, x.SectionFee, y.InstructorFirstName, y.InstructorLastName }; 
             GridView1.DataSource = query;
             GridView1.DataBind();
